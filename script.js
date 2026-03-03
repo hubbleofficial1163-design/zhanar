@@ -100,49 +100,78 @@ document.addEventListener('DOMContentLoaded', function() {
     document.head.appendChild(style);
 });
 
-    // Таймер обратного отсчета
-    function updateCountdown() {
-        const weddingDate = new Date('2026-07-20T00:00:00').getTime();
-        const now = new Date().getTime();
-        const timeLeft = weddingDate - now;
+// Таймер обратного отсчета
+function updateCountdown() {
+    const weddingDate = new Date('2026-07-20T00:00:00').getTime();
+    const now = new Date().getTime();
+    const timeLeft = weddingDate - now;
+    
+    if (timeLeft > 0) {
+        const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
         
-        if (timeLeft > 0) {
-            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-            
-            document.getElementById('days').textContent = String(days).padStart(2, '0');
-            document.getElementById('hours').textContent = String(hours).padStart(2, '0');
-            document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
-            document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
-        } else {
-            document.getElementById('days').textContent = '00';
-            document.getElementById('hours').textContent = '00';
-            document.getElementById('minutes').textContent = '00';
-            document.getElementById('seconds').textContent = '00';
-        }
+        document.getElementById('days').textContent = String(days).padStart(2, '0');
+        document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+        document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+        document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+    } else {
+        document.getElementById('days').textContent = '00';
+        document.getElementById('hours').textContent = '00';
+        document.getElementById('minutes').textContent = '00';
+        document.getElementById('seconds').textContent = '00';
     }
-    
-    // Обновляем таймер каждую секунду
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
-    
-    // Обработка формы
-    const guestForm = document.querySelector('.guest-form');
-    if (guestForm) {
-        guestForm.addEventListener('submit', function(e) {
-            e.preventDefault();
+}
+
+// Обновляем таймер каждую секунду
+updateCountdown();
+setInterval(updateCountdown, 1000);
+
+// ========== ТОЛЬКО ЭТОТ БЛОК ДОБАВЛЕН ==========
+// Конфигурация Google Apps Script
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby-kA9zaxcrH3Q63Ua0-1WT7Q7yOsVT77BSgzNMHf_uIepU3qDQjb42Pz7uEapKFrCBIQ/exec'; // ЗАМЕНИТЕ НА ВАШ URL
+
+// Обработка формы с отправкой в Google Sheets
+const guestForm = document.querySelector('.guest-form');
+if (guestForm) {
+    guestForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        // Получаем данные формы
+        const formData = new FormData(this);
+        const data = Object.fromEntries(formData.entries());
+        
+        // Показываем индикатор загрузки
+        const submitBtn = this.querySelector('.submit-btn');
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = 'Отправка...';
+        submitBtn.disabled = true;
+        
+        try {
+            // Отправляем данные в Google Sheets
+            const params = new URLSearchParams();
+            params.append('name', data.fullname);
+            params.append('phone', data.phone);
             
-            // Получаем данные формы
-            const formData = new FormData(this);
-            const data = Object.fromEntries(formData.entries());
+            await fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                body: params
+            });
             
-            // Здесь обычно отправка данных на сервер
-            // В демо-версии просто показываем уведомление
-            alert(`Спасибо, ${data.fullname}! Ваше присутствие подтверждено до 01.05.2026.\nМы свяжемся с вами по номеру ${data.phone}.`);
+            alert(`Спасибо, ${data.fullname}! Ваш ответ отправлен.`);
             
             // Сбрасываем форму
             this.reset();
-        });
-    }
+            
+        } catch (error) {
+            console.error('Ошибка при отправке:', error);
+            alert('Произошла ошибка при отправке. Пожалуйста, попробуйте позже.');
+        } finally {
+            // Возвращаем кнопку в исходное состояние
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+        }
+    });
+}
