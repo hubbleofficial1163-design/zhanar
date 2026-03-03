@@ -1600,7 +1600,7 @@ a {
 
 
 
-/* Секция с пожеланиями - упрощенный вариант */
+/* Секция с пожеланиями - с SVG сердечками */
 .wishes-section {
     background-color: #fefaef;
     padding: 60px 20px;
@@ -1623,25 +1623,44 @@ a {
 .wishes-items {
     display: flex;
     flex-direction: column;
-    gap: 25px;
+    gap: 30px;
 }
 
 .wishes-item {
     display: flex;
     gap: 20px;
     align-items: flex-start;
-    border-bottom: 1px solid #e0d9b0;
-    padding-bottom: 25px;
+    position: relative;
+    padding-bottom: 30px;
 }
 
-.wishes-item:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
+/* SVG сердечко между пунктами */
+.wishes-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 30px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23740e23'%3E%3Cpath d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #fefaef;
+    padding: 0 20px;
+    z-index: 2;
+    animation: heartbeat 1.5s ease-in-out infinite;
 }
 
-.wishes-icon {
-    font-size: 2.2rem;
-    min-width: 60px;
+/* Анимация пульсации сердечка */
+@keyframes heartbeat {
+    0%, 100% {
+        transform: translateX(-50%) scale(1);
+    }
+    50% {
+        transform: translateX(-50%) scale(1.2);
+    }
 }
 
 .wishes-text p {
@@ -1665,6 +1684,12 @@ a {
     .wishes-text p {
         font-size: 1.2rem;
     }
+    
+    .wishes-item:not(:last-child)::after {
+        width: 25px;
+        height: 25px;
+        bottom: -12px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -1677,6 +1702,12 @@ a {
     
     .wishes-text p {
         font-size: 1.1rem;
+    }
+    
+    .wishes-item:not(:last-child)::after {
+        width: 20px;
+        height: 20px;
+        bottom: -10px;
     }
 }
 
