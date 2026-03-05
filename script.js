@@ -130,7 +130,7 @@ setInterval(updateCountdown, 1000);
 
 // ========== ТОЛЬКО ЭТОТ БЛОК ДОБАВЛЕН ==========
 // Конфигурация Google Apps Script
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby-kA9zaxcrH3Q63Ua0-1WT7Q7yOsVT77BSgzNMHf_uIepU3qDQjb42Pz7uEapKFrCBIQ/exec'; // ЗАМЕНИТЕ НА ВАШ URL
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwtqdDsUo4_Kek9rWjFw7LXrgkw22qFWzPGByt6b3Mm_tQ6Bk6ayeXWPKtZYprRaEf5mA/exec'; // ЗАМЕНИТЕ НА ВАШ URL
 
 // Обработка формы с отправкой в Google Sheets
 const guestForm = document.querySelector('.guest-form');
