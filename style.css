@@ -65,7 +65,7 @@ body {
     font-family: 'Caveat', cursive;
     font-size: 2.2rem;
     font-weight: 500;
-    color: #000;
+    color: #fefaef;
     margin-bottom: 1px;
     letter-spacing: 1px;
 }
@@ -1023,23 +1023,23 @@ body {
     text-align: center;
 }
 
-.dresscode-photo {
+/* .dresscode-photo {
     width: 100%;
     margin-bottom: 10px;
-}
+} */
 
-.dresscode-photo img {
+/* .dresscode-photo img {
     width: 120%;
     height: auto;
     border-radius: 0;
-    /* box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); */
+    /* box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); 
     background-color: transparent;
     transition: transform 0.3s ease;
-}
+} */
 
-.dresscode-photo img:hover {
+/* .dresscode-photo img:hover {
     transform: scale(1.02);
-}
+} */
 
 .dresscode-caption {
     font-family: 'Caveat', cursive;
@@ -1840,3 +1840,167 @@ a {
 }
 
 
+/* Стили для цветных кружочков в секции дресс-кода */
+.dresscode-photo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 150px; /* Минимальная высота, чтобы область не схлопывалась */
+}
+
+.color-circles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 10px;
+}
+
+.color-circle {
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    /* border: 2px solid white;  <-- Убрали белую обводку */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.color-circle:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Адаптация под мобильные устройства */
+@media (max-width: 768px) {
+    .color-circle {
+        width: 45px;
+        height: 45px;
+    }
+}
+
+@media (max-width: 480px) {
+    .color-circle {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .color-circles {
+        gap: 10px;
+    }
+}
+
+/* Удаляем старые стили для изображений, если они мешают */
+/* .dresscode-photo img {
+    display: none; /* Скрываем старые картинки, если они остались 
+} */
+
+
+/* Обновленные стили для секции дресс-кода */
+.dresscode-photo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: auto;
+}
+
+.dresscode-model-img {
+    width: 100%;
+    max-width: 800px; /* Ограничиваем максимальную ширину изображения */
+    height: auto;
+    margin-bottom: 15px; /* Отступ от изображения до кружочков */
+    display: block;
+}
+
+.dresscode-item:first-child .dresscode-model-img {
+    max-width: 450px !important; /* Или нужный размер */
+}
+
+.dresscode-item:last-child .dresscode-model-img {
+    max-width: none;
+    width: 360px; /* Фиксированная ширина */
+}
+
+.color-circles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 10px 20px;
+}
+
+.color-circle {
+    display: inline-block;
+    width: 45px !important;
+    height: 45px !important;
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.color-circle:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Скрываем старые изображения, если они были */
+.dresscode-photo img:not(.dresscode-model-img) {
+    display: none;
+}
+
+/* Адаптация под мобильные устройства */
+@media (max-width: 768px) {
+    .dresscode-model-img {
+        max-width: 200px;
+    }
+    
+    .color-circle {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .color-circles {
+        gap: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .dresscode-model-img {
+        max-width: 160px;
+        margin-bottom: 10px;
+    }
+    
+    .color-circle {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .color-circles {
+        gap: 8px;
+        padding: 5px 5px 15px;
+    }
+}
+
+/* Снимаем все ограничения ширины */
+.dresscode-item:last-child,
+.dresscode-item:last-child .dresscode-photo,
+.dresscode-item:last-child .color-circles {
+    max-width: 100% !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* Увеличиваем отступ от надписи до фото */
+.dresscode-caption {
+    margin-bottom: 25px !important; /* Увеличивает расстояние вниз от надписи */
+}
+
+/* ИЛИ альтернативный способ - добавить отступ сверху к фото */
+.dresscode-photo {
+    margin-top: 20px !important; /* Увеличивает расстояние сверху у фото */
+}
